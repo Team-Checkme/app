@@ -1,0 +1,84 @@
+# 개발 도구 및 IDE 설정 규칙
+
+## 🛠️ 필수 도구
+
+- **FVM**: Flutter 버전 관리
+- **Mason**: 코드 템플릿 생성
+- **Build Runner**: 코드 생성 자동화
+- **Very Good Analysis**: 코드 품질 분석
+- **Patrol/Integration Test**: E2E 테스트
+
+## ⚙️ IDE 설정 (VS Code)
+
+```json
+{
+  "dart.flutterSdkPath": ".fvm/flutter_sdk",
+  "dart.lineLength": 120,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  }
+}
+```
+
+## 🔍 Lint 설정
+
+- **제외 파일**: `**/*.g.dart`, `**/*.freezed.dart`
+- **규칙**:
+  - `public_member_api_docs: false`
+  - `prefer_relative_imports: true`
+  - `avoid_print: true`
+
+## 📋 코드 생성 워크플로우
+
+1. Mason으로 컴포넌트 템플릿 생성
+2. build_runner로 보일러플레이트 코드 생성
+3. Very Good Analysis로 코드 품질 검사
+4. 자동 포맷팅 및 린트 수정
+
+## 🚀 FVM 설정
+
+```bash
+# Flutter 버전 설치
+fvm install 3.24.0
+
+# 프로젝트에 Flutter 버전 설정
+fvm use 3.24.0
+
+# .fvmrc 파일 생성
+fvm flutter --version
+```
+
+## 🔧 Mason 설정
+
+```bash
+# Mason 설치
+dart pub global activate mason_cli
+
+# 템플릿 추가
+mason add very_good_flutter
+mason add very_good_analysis
+
+# 컴포넌트 생성
+mason make very_good_flutter --feature_name auth
+```
+
+## 📊 Build Runner 설정
+
+```yaml
+# pubspec.yaml
+dev_dependencies:
+  build_runner: ^2.4.0
+  freezed: ^2.4.0
+  json_annotation: ^4.8.0
+
+# 코드 생성 명령어
+flutter packages pub run build_runner build
+flutter packages pub run build_runner watch
+```
+
+description:
+globs:
+alwaysApply: true
+
+---

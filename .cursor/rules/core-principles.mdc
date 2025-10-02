@@ -1,0 +1,32 @@
+# Flutter 팀 개발 핵심 원칙 (10+ 개발자)
+
+## 🎯 핵심 원칙
+
+- **팀 규모**: 10명 이상의 개발자
+- **중점**: 확장 가능한 아키텍처, 유지보수 가능한 코드, 일관된 코드 생성
+- **Flutter 버전**: 3.24+ (null safety 필수)
+
+## 🔄 상태 관리
+
+- **Riverpod**: 전역 상태 관리용
+- **BLoC**: 복잡한 비즈니스 로직 및 이벤트 기반 플로우용
+- **GetX 사용 금지**: 대규모 팀에서는 사용하지 않음
+- **setState 제한**: UI 전용 로컬 상태만 허용, 비즈니스 로직에는 사용 금지
+- **불변 상태**: Freezed를 사용한 불변 상태 필수
+- **상태 분리**: UI 상태와 비즈니스 로직 분리
+- **보일러플레이트**: build_runner로 자동 생성
+- **테스트**: providers와 blocs에 대한 단위 테스트 필수
+
+## 🧩 컴포넌트 관리
+
+- **Atomic Design**: UI 컴포넌트에 atomic design 원칙 적용
+- **컴포넌트 구조**: atoms → molecules → organisms → templates → pages
+- **상속 vs 조합**: 상속보다 조합 선호
+- **네이밍**: Dart 컨벤션을 따르는 의미있는 컴포넌트명
+- **키 관리**: 위젯 식별을 위한 적절한 키 관리
+- **문서화**: 공유 컴포넌트는 shared/components에 문서화
+  description:
+  globs:
+  alwaysApply: true
+
+---

@@ -1,0 +1,55 @@
+# 프로젝트 구조 규칙
+
+## 📁 폴더 구조
+
+```
+core/
+  ├── constants/     # 상수 정의
+  ├── extensions/    # 확장 메서드
+  ├── themes/        # 테마 정의
+  └── utils/         # 유틸리티 함수
+
+shared/
+  ├── components/    # 공유 컴포넌트
+  │   ├── atoms/    # 기본 원자 컴포넌트
+  │   ├── molecules/ # 분자 컴포넌트
+  │   └── organisms/ # 유기체 컴포넌트
+  ├── services/      # 공유 서비스
+  └── providers/     # 공유 프로바이더
+
+features/
+  └── feature_name/
+      ├── data/      # 데이터 레이어
+      │   ├── repositories/
+      │   └── data_sources/
+      ├── domain/    # 도메인 레이어
+      │   ├── entities/
+      │   └── use_cases/
+      └── presentation/ # 프레젠테이션 레이어
+          ├── components/
+          ├── pages/
+          └── state/
+
+main.dart            # 앱 진입점
+```
+
+## 🎨 컴포넌트 분류 기준
+
+- **Atoms**: 버튼, 입력 필드, 아이콘 등 기본 요소
+- **Molecules**: 검색 바, 카드 헤더 등 atoms 조합
+- **Organisms**: 네비게이션 바, 폼 등 molecules 조합
+- **Templates**: 페이지 레이아웃 구조
+- **Pages**: 실제 화면 구현
+
+## 📋 파일 네이밍 규칙
+
+- **컴포넌트**: `app_button.dart`, `user_card.dart`
+- **페이지**: `home_page.dart`, `profile_page.dart`
+- **서비스**: `auth_service.dart`, `api_service.dart`
+- **모델**: `user_model.dart`, `product_entity.dart`
+- **테스트**: `app_button_test.dart`, `home_page_test.dart`
+  description:
+  globs:
+  alwaysApply: true
+
+---

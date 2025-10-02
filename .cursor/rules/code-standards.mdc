@@ -1,0 +1,68 @@
+# 코드 표준 및 품질 규칙
+
+## 🔧 코드 품질
+
+- **Effective Dart**: Effective Dart 스타일 가이드 엄격 준수
+- **Lint 규칙**: very_good_analysis 린트 규칙 적용
+- **분석 설정**: analysis_options.yaml에 모든 권장 규칙 활성화
+- **Null Safety**: Flutter 3.24+ null safety 필수 사용
+
+## 📝 코딩 컨벤션
+
+- **Import**: 상대 경로 import 선호
+- **Print 금지**: print 문 사용 금지
+- **에러 처리**: Result/Either 타입으로 에러 처리
+- **Const 생성자**: 가능한 모든 곳에 const 생성자 사용
+
+## 🚀 성능 최적화
+
+- **ListView**: 대용량 리스트는 ListView.builder 사용
+- **이미지 최적화**: 이미지 캐싱 적용
+- **성능 모니터링**: DevTools로 성능 모니터링
+- **접근성**: 시맨틱 라벨과 스크린 리더 지원
+- **색상 대비**: 색상 대비 및 접근성 보장
+
+## 🔒 보안
+
+- **민감 데이터**: 민감한 데이터는 보안 저장소 사용
+- **API 키**: API 키나 시크릿은 절대 커밋하지 않음
+
+## 📋 코드 예시
+
+```dart
+// ✅ 좋은 예시
+class UserService {
+  const UserService(this._repository);
+
+  final UserRepository _repository;
+
+  Future<Result<User, Failure>> getUser(String id) async {
+    try {
+      final user = await _repository.getUser(id);
+      return Result.success(user);
+    } catch (e) {
+      return Result.failure(Failure.fromException(e));
+    }
+  }
+}
+
+// ❌ 나쁜 예시
+class UserService {
+  UserService(this.repository) {
+    this.repository = repository;
+  }
+
+  var repository;
+
+  Future getUser(String id) async {
+    print('Getting user: $id'); // print 사용 금지
+    return await repository.getUser(id);
+  }
+}
+```
+
+description:
+globs:
+alwaysApply: true
+
+---

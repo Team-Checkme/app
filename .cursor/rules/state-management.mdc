@@ -1,0 +1,107 @@
+# 상태 관리 및 아키텍처 규칙
+
+## 🏗️ 아키텍처 패턴
+
+- **Clean Architecture**: 데이터, 도메인, 프레젠테이션 레이어 분리
+- **Repository Pattern**: 데이터 접근 추상화
+- **Use Case Pattern**: 비즈니스 로직 캡슐화
+
+## 🔄 상태 관리 전략
+
+- **Riverpod**: 전역 상태 및 의존성 주입
+- **BLoC**: 복잡한 상태 로직 및 이벤트 처리
+- **Local State**: UI 전용 상태는 StatefulWidget 내부에서만 관리
+
+## 📊 상태 불변성
+
+- **Freezed**: 모든 상태 클래스에 Freezed 적용
+- **Copy With**: 상태 업데이트는 copyWith 메서드 사용
+- **Equatable**: 상태 비교를 위한 Equatable 구현
+
+## 🧪 테스트 전략
+
+- **Provider 테스트**: Riverpod provider 단위 테스트
+- **BLoC 테스트**: BLoC 이벤트 및 상태 테스트
+- **Repository 테스트**: 데이터 레이어 모킹 테스트
+- **Widget 테스트**: UI 컴포넌트 테스트
+
+## 📋 코드 예시
+
+### Riverpod Provider
+
+```dart
+@riverpod
+class UserNotifier extends _$UserNotifier {
+  @override
+  FutureOr<User?> build() => null;
+
+  Future<void> fetchUser(String id) async {
+    state = const AsyncValue.loading();
+    try {
+      final user = await _userRepository.getUser(id);
+      state = AsyncValue.data(user);
+    } catch (e, stack) {
+      state = AsyncValue.error(e, stack);
+    }
+  }
+}
+```
+
+### BLoC Pattern
+
+```dart
+@freezed
+class UserEvent with _$UserEvent {
+  const factory UserEvent.fetchUser(String id) = _FetchUser;
+}
+
+@freezed
+class UserState with _$UserState {
+  const factory UserState.initial() = _Initial;
+  const factory UserState.loading() = _Loading;
+  const factory UserState.loaded(User user) = _Loaded;
+  const factory UserState.error(String message) = _Error;
+}
+
+class UserBloc extends Bloc<UserEvent, UserState> {
+  UserBloc(this._repository) : super(const UserState.initial()) {
+    on<_FetchUser>(_onFetchUser);
+  }
+
+  Future<void> _onFetchUser(_FetchUser event, Emitter<UserState> emit) async {
+    emit(const UserState.loading());
+    try {
+      final user = await _repository.getUser(event.id);
+      emit(UserState.loaded(user));
+    } catch (e) {
+      emit(UserState.error(e.toString()));
+    }
+  }
+}
+```
+
+### Repository Pattern
+
+```dart
+abstract class UserRepository {
+  Future<User> getUser(String id);
+  Future<List<User>> getUsers();
+}
+
+class UserRepositoryImpl implements UserRepository {
+  const UserRepositoryImpl(this._dataSource);
+
+  final UserDataSource _dataSource;
+
+  @override
+  Future<User> getUser(String id) async {
+    return await _dataSource.getUser(id);
+  }
+}
+```
+
+description:
+globs:
+alwaysApply: true
+
+---
